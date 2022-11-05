@@ -1,4 +1,5 @@
 import {
+  Session,
   Controller,
   Post,
   Body,
@@ -11,10 +12,7 @@ import {
 import { CreateUserDto } from './../DTO/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './../DTO/update-user.dto';
-import {
-  Serialize,
-  SerializeInterceptor,
-} from './../interceptors/serialize.interceptor';
+import { Serialize } from './../interceptors/serialize.interceptor';
 import { UserDto } from './../DTO/user.dto';
 import { AuthServcie } from './auth-service';
 
@@ -26,15 +24,28 @@ export class UsersController {
     private authService: AuthServcie,
   ) {}
 
+  @Get(`/whoami`)
+  WhoAmI(@Session() session:any){
+    return this.userService.findOne(session.userId)
+  }
+
   @Post(`/signup`)
-  createUser(@Body() body: CreateUserDto) {
-    this.authService.signup(body.email, body.password);
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(body.email, body.password);
+    session.userId = user.id;
     return `User Created successfully`;
   }
 
   @Post(`/signin`)
-  signIn(@Body() body: CreateUserDto) {
-    return this.authService.signin(body.email, body.password);
+  async signIn(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
+    return user;
+  }
+
+  @Post(`/signout`)
+  singOut(@Session() session:any){
+    session.userId=null
   }
 
   // @UseInterceptors(new SerializeInterceptor(UserDto))

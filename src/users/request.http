@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/signup
 content-type:application/json
 
 {
-    "email":"dumbFuck@hotmail.com",
+    "email":"testuser@test.com",
     "password":"something"
 }
 
@@ -15,6 +15,12 @@ content-type:application/json
     "email":"dumbFuck@hotmail.com",
     "password":"something"
 }
+
+### Find out the current-user
+POST  http://localhost:3000/auth/signout
+
+### Find out the current-user
+GET http://localhost:3000/auth/whoami
 
 ### Find a Single User
 GET http://localhost:3000/auth/2
