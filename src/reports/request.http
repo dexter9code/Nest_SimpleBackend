@@ -1,0 +1,13 @@
+### Adding a Report
+POST http://localhost:3000/reports
+content-type: application/json
+
+{
+    "make":"Tesla",
+    "model":"Model X",
+    "year":2016,
+    "mileage":20000,
+    "lng":0, 
+    "lat":0,
+    "price":30000
+}
