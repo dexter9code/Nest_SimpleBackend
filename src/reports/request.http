@@ -4,10 +4,10 @@ content-type: application/json
 
 {
     "make":"Tesla",
-    "model":"Model X",
-    "year":2016,
+    "model":"Model Y",
+    "year":2018,
     "mileage":20000,
     "lng":0, 
     "lat":0,
-    "price":30000
+    "price":49000
 }
