@@ -25,6 +25,9 @@ export class ReportDto {
   @Expose()
   mileage: number;
 
+  @Expose()
+  approved:boolean
+
   @Transform(({ obj }) => obj.user.id) //with this we can pull values from original object(result) and add to the new property
   @Expose()
   userId: number;
