@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Report } from './report.entity';
 import { CreateReportDto } from './../DTO/createReport.dto';
 import { User } from './../users/user.entity';
+import { GetEstimateDto } from './../DTO/get-estimate.dto';
 
 @Injectable()
 export class ReportsService {
@@ -24,5 +25,20 @@ export class ReportsService {
 
     report.approved = approved;
     return this.repo.save(report);
+  }
+
+  createEstimate(estimateDto: GetEstimateDto) {
+    return this.repo
+      .createQueryBuilder()
+      .select('*')
+      .where('make = :make', { make: estimateDto.make })
+      .andWhere('model = :model', { model: estimateDto.model })
+      .andWhere('approved IS TRUE')
+      // .andWhere('lng -:lng BETWEEN -5 AND 5',{lng:estimateDto.lng})
+      .orderBy('mileage -:mileage','DESC')
+      .setParameters({mileage:estimateDto.mileage})
+      .limit(3)
+      .getRawMany();
+      
   }
 }
